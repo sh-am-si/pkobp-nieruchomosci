@@ -16,6 +16,10 @@ ipython = "*"
 ipykernel = "*"
 notebook = "*"
 wquantiles = "*"
+pygam = "*"
+dmba = "*"
+imblearn = "*"
+xlrd = "*"
 
 [dev-packages]
 pytest = "*"
@@ -24,7 +28,7 @@ flake8 = "*"
 mypy = "*"
 
 [requires]
-python_version = "3.12"
+python_version = "3.11"
 
 [pipenv]
 allow_prereleases = false

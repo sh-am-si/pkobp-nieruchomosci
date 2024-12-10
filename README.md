@@ -545,3 +545,7 @@ Kolumny _ufność_ i _duże zakupy_ mają dużą korelacją, dlatego jedna z nic
 # Linki
  1. [www.rmf24.pl/ekonomia](https://www.rmf24.pl/ekonomia/news-wzrost-spadek-czy-stabilizacja-7-ekspertow-o-przyszlosci-cen,nId,7754944#crp_state=1)
  2. [legalbusiness.pl/rosnie-popyt-na-domy-dla-seniorow-w-polsce-jest-ich-niemal-najmniej-w-europie-raport-cbre-i-greenberg-traurig/](https://legalbusiness.pl/rosnie-popyt-na-domy-dla-seniorow-w-polsce-jest-ich-niemal-najmniej-w-europie-raport-cbre-i-greenberg-traurig/)
+
+ 3. [propertynews.pl](https://www.propertynews.pl/polityka-i-spoleczenstwo/gus-w-kwartalach-i-iii-spadek-liczby-oddanych-mieszkan-i-wiecej-rozpoczetych-budow,178211.html)
+
+ 4. [GUS](https://stat.gov.pl/obszary-tematyczne/przemysl-budownictwo-srodki-trwale/budownictwo/budownictwo-mieszkaniowe-w-okresie-styczen-pazdziernik-2024-roku,5,157.html)
