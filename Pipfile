@@ -1,0 +1,30 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = false
+name = "pypi"
+
+[packages]
+numpy = "*"
+pandas = "*"
+plotly = "*"
+statsmodels = "*"
+scikit-learn = "*"
+openpyxl = "*"
+seaborn = "*"
+jupyter = "*"
+ipython = "*"
+ipykernel = "*"
+notebook = "*"
+wquantiles = "*"
+
+[dev-packages]
+pytest = "*"
+black = "*"
+flake8 = "*"
+mypy = "*"
+
+[requires]
+python_version = "3.12"
+
+[pipenv]
+allow_prereleases = false
