@@ -38,6 +38,8 @@ Program Bezpieczny Kredyt 2% został wygaszony z końcem 2023 roku. Na dzień dz
 
 # Korelacja
 
+
+<table id="T_875bc">
 <style type="text/css">
 #T_875bc_row0_col0, #T_875bc_row1_col1, #T_875bc_row2_col2, #T_875bc_row3_col3, #T_875bc_row4_col4, #T_875bc_row5_col5, #T_875bc_row6_col6, #T_875bc_row7_col7, #T_875bc_row8_col8, #T_875bc_row9_col9, #T_875bc_row10_col10 {
   background-color: #b40426;
@@ -364,7 +366,6 @@ Program Bezpieczny Kredyt 2% został wygaszony z końcem 2023 roku. Na dzień dz
   color: #f1f1f1;
 }
 </style>
-<table id="T_875bc">
   <thead>
     <tr>
       <th class="blank level0" >&nbsp;</th>
