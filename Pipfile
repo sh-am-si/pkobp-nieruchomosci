@@ -20,6 +20,7 @@ pygam = "*"
 dmba = "*"
 imblearn = "*"
 xlrd = "*"
+tabulate = "*"
 
 [dev-packages]
 pytest = "*"
