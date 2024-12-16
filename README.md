@@ -12,31 +12,56 @@ ZADANIE - przedstaw koncepcję budowy modelu predykcyjnego cen transakcyjnych me
 UWAGA! Gwałtowny wzrost popytu na kredyty i nieruchomości mieszkaniowe w drugiej połowie 2023 wynika z uruchomienia rządowego programu kredytów z preferencyjnym oprocentowaniem Bezpieczny Kredyt 2% (program był aktywny w okresie 01-07-2023 do 31-12-2023). Powyższe miało wpływ na dynamikę zmian cen w okresie 3Q2023 - 1Q2024. 
 Program Bezpieczny Kredyt 2% został wygaszony z końcem 2023 roku. Na dzień dzisiejszy nie wiadomo czy zostanie wdrożony nowy program wsparcia dla kredytobiorców, dlatego należy przyjąć założenie, że w okresie objętym prognozą żadna forma wsparcia nie będzie funkcjonować.																	
 
-## Dodatkowe faktory
+## Dane
+Dane składają się z 11 kolumn bez brakujących punktów. Każda kolumna ma 42 wpisy wyznaczone na kwartały dla ostatnich 10 lat,  aby uzyskać więcej informacji, przeczytaj [tutaj](./1_data_import.pdf). Przekształcając dane wejściowe na szeregi czasowe oznaczyłem je ostatnim dniem każdego kwartału, przeczytaj [tutaj](./2_converting_to_ts.pdf).
 
-1. stopy procentowe Centralnego Banku Europejskiego
-2. stopy procentowe FED
-3. budownictwo mieszkaniowe w Polsce
-4. Dlugoterminowe
--  sytuacja demograficzna (liczba zgonow, licba urodzeń, liczba domów dla seniorów, migracja)
--  realne wynagrodzenia w Polsce (nie nominalne)
--  tempo rozwoju gospodarki
-  5. 
+Dla wygody zmieniono nazwy kolumn
+```json
+{
+    "7M rynek pierwotny - CBNavg": "rynek",
+    "Inflacja - indeks r/r (GUS)": "inflacja_r",
+    "Inflacja - indeks q/q (GUS)": "inflacja_q",
+    "stopa procentowa nowo udzielonych kredytów (AMRON Sarfin) ": "stopa_procentowa",
+    "liczba udzielonych kredytów mieszkaniowych (AMRON Sarfin)": "liczba_kredytow",
+    "tempo wzrostu wynagrodzeń w sektorze przedsiębiorstw r/r (NBP)": "tempo_wzrostu",
+    "koniunktura konsumencka - bieżący wskaźnik ufności (GUS)": "ufnosc",
+    "koniunktura konsumencka - obecne dokonywanie du|ych zakupów (GUS)": "duze_zakupy",
+    "stopa bezrobocia - w % (GUS)": "bezrobocie",
+    "dynamika sprzedaży detalicznej - indeks r/r (GUS)": "spr_detaliczna",
+    "dynamika PKB - indeks r/r (GUS)": "pkb"
+}
+```
 
+## Inne źródła informacji
+W trakcie rozwiązania zadania, zapoznałem się z następnymi materialami.
 
-##
-
-> __Czy gdyby podaż nieruchomości przewyższała popyt, można spodziewać się obniżek cen?__? Deweloperzy są w tak dobrej kondycji po ostatnich bardzo dobrych dla nich latach, że w sytuacji, gdyby wysoka podaż wywierała presję na obniżkę ceny, mogą ten moment przeczekać - mają bowiem silne bilanse i stać ich na czekanie - stwierdza Gołębiewski.
+1. artykul na rmf.pl/ekonomia [13], zawierający następujące tezy:
+   
+> __Czy gdyby podaż nieruchomości przewyższała popyt, można spodziewać się obniżek cen?__? Deweloperzy są w tak dobrej kondycji po ostatnich bardzo dobrych dla nich latach, że w sytuacji, gdyby wysoka podaż wywierała presję na obniżkę ceny, mogą ten moment przeczekać - mają bowiem silne bilanse i stać ich na czekanie.
 
 > Trendu bocznego w cenach średnich w dużych miastach. Lekkiego spadku cen (powolnego) w małych miastach. __Wyspowych głośnych dowodów na spadki i na wzrosty__ - to znaczy w zależności od tezy - będzie można znaleźć dane potwierdzające zarówno spadki (w wybranych segmentach, metrażach, rynek pierwotny versus rynek wtórny, miastach, etc.), jak i wzrosty.
 
 > __Coraz mniejszy sens będzie miało patrzenie na średnie ceny__ dla Polski, a coraz ważniejsze będzie patrzenie przez pryzmat poszczególnych segmentów.
 
-> __cały czas będzie silny, choć nie rosnący, trend inwestowania w mieszkania na wynajem__.
+> __Cały czas będzie silny, choć nie rosnący, trend inwestowania w mieszkania na wynajem__.
 
-> __Nic nie wskazuje, by czekało nas załamanie, ani dalsza koniunktura jak ostatnio__. Musimy pamiętać, że jesteśmy po latach rekordowych pod wieloma względami i kolejne lata będą na ich tle wzbudzały emocje.
+> __Nic nie wskazuje, by czekało nas załamanie, ani dalsza koniunktura jak ostatnio__. Musimy pamiętać, że jesteśmy po latach rekordowych pod wieloma względami i kolejne lata będą na ich tle wzbudzały emocje.  
 
-# Dane
+2. Wideo na YouTube [11] Macieja Gołębiewskiego, gdzie stwierdza, że ​​ceny nieruchomości są stabilne według średniej pensji skorygowanej o inflację. Próbowałem powtórzyć jego podejście i uzyskałem podobne wyniki, więcej [tutaj](./3_kor_wynag_cena.pdf)
+   ![wykres](./images/ceva_vs_wynag.png)
+
+3. W artykule naukowym [7] badającym zależności cen nieruchomości w Polsce podano:
+
+>  Rynek nieruchomości w Polsce charakteryzuje się znaczną orientacją kredytową, co jest ułatwione przez długoterminowe stabilne lub spadające stopy procentowe kredytów hipotecznych i pożyczek udzielanych przedsiębiorstwom i zabezpieczonych nieruchomościami. Od 2012 r. takie kredyty walutowe są praktycznie niedostępne ze względu na stabilność złotego i dość atrakcyjną politykę cenową banków, a także niską wartość pieniądza na rynku finansowym.
+
+4. I co najważniejsze, raport PKO BP [9] wśród wszystkich innych przydatnych informacji mówi o stabilnej dostepności mieszkan w największych miastach (wykres 27).
+
+## Dodatkowe dane 
+
+1. Przeciętne wynagorodzenie od GUS [8], wiejcej [tutaj](./gus_wynagrodzenie.pdf).
+
+2. Nowa budowa w Polsce od GUS [8], wiejcej [tutaj](./gus_deweloperzy.pdf).
+
 
 ## Wykres aktualnych dannych
 ![Alt Text](./images/all_columns.png)
@@ -583,10 +608,19 @@ Program Bezpieczny Kredyt 2% został wygaszony z końcem 2023 roku. Na dzień dz
 Kolumny _ufność_ i _duże zakupy_ mają dużą korelacją, dlatego jedna z nich może być usunięta z modeli. Następny kandendat na usunięcie jadna kolumna z pary _sprzedaż detaliczna_ i _PKB_.
 
 
-# Linki
- 1. [www.rmf24.pl/ekonomia](https://www.rmf24.pl/ekonomia/news-wzrost-spadek-czy-stabilizacja-7-ekspertow-o-przyszlosci-cen,nId,7754944#crp_state=1)
- 2. [legalbusiness.pl/rosnie-popyt-na-domy-dla-seniorow-w-polsce-jest-ich-niemal-najmniej-w-europie-raport-cbre-i-greenberg-traurig/](https://legalbusiness.pl/rosnie-popyt-na-domy-dla-seniorow-w-polsce-jest-ich-niemal-najmniej-w-europie-raport-cbre-i-greenberg-traurig/)
-
- 3. [propertynews.pl](https://www.propertynews.pl/polityka-i-spoleczenstwo/gus-w-kwartalach-i-iii-spadek-liczby-oddanych-mieszkan-i-wiecej-rozpoczetych-budow,178211.html)
-
- 4. [GUS](https://stat.gov.pl/obszary-tematyczne/przemysl-budownictwo-srodki-trwale/budownictwo/budownictwo-mieszkaniowe-w-okresie-styczen-pazdziernik-2024-roku,5,157.html)
+# Referencje
+ 1. Statystyka praktyczna w data science. 2021 r.
+ 2. Sztuczna inteligencja w finansach. 2012 r.
+ 3. Praktikal Time Series Analsis. Avishek Pal
+ 4. Applied Time Series Analysis and Forecasting with Python. _Changquan Huang_. 2022 r.
+ 5. Multivariate Time Series Analysis, _Ruey S. Tsay_ 2014 r.
+ 6. MachineLearning for Financial Risk Management with Python. _Abdullah Karasan_, 2022 r.
+ 7. Melnychenko,  O.,  Osadcha,  T.,  Kovalyov,  A.  &  Matskul,  V.  (2022).  Dependence  of  housing  real estate prices on inflation as one of the most important factors: Poland’s case. _Real Estate Management and Valuation_, 30(4), 25-41. 
+ 8.  [GUS](https://stat.gov.pl/)
+ 9.  [centrumanaliz.pkobp.pl](https://centrumanaliz.pkobp.pl/nieruchomosci/rynek-mieszkaniowy-3q24-rynek-mieszkaniowy-jak-polski-film-nic-sie-nie-dzieje-nuda)
+ 10. [centrumanaliz.pkobp.pl](https://centrumanaliz.pkobp.pl/nieruchomosci/puls-nieruchomosci-wysokie-stopy-procentowe-promuja-wynajem-dlugoterminowy)
+ 11. [Maciej Gołębiewski. Ceny Nieruchomości w Polsce](https://www.youtube.com/watch?v=3E-zUSpvXGc)
+ 12. [indeks cen mieszkań](https://www.morizon.pl/blog/indeks-cen-mieszkan/)
+ 13. [www.rmf24.pl/ekonomia](https://www.rmf24.pl/ekonomia/news-wzrost-spadek-czy-stabilizacja-7-ekspertow-o-przyszlosci-cen,nId,7754944#crp_state=1)
+  
+ 14. [propertynews.pl](https://www.propertynews.pl/polityka-i-spoleczenstwo/gus-w-kwartalach-i-iii-spadek-liczby-oddanych-mieszkan-i-wiecej-rozpoczetych-budow,178211.html)

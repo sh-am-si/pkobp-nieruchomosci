@@ -1,0 +1,13 @@
+{
+    "7M rynek pierwotny - CBNavg": "rynek",
+    "Inflacja - indeks r/r (GUS)": "inflacja_r",
+    "Inflacja - indeks q/q (GUS)": "inflacja_q",
+    "stopa procentowa nowo udzielonych kredyt\u00f3w (AMRON Sarfin) ": "stopa_procentowa",
+    "liczba udzielonych kredyt\u00f3w mieszkaniowych (AMRON Sarfin)": "liczba_kredytow",
+    "tempo wzrostu wynagrodze\u0144 w sektorze przedsi\u0119biorstw r/r (NBP)": "tempo_wzrostu",
+    "koniunktura konsumencka - bie\u017c\u0105cy wska\u017anik ufno\u015bci (GUS)": "ufnosc",
+    "koniunktura konsumencka - obecne dokonywanie du\u017cych zakup\u00f3w (GUS)": "duze_zakupy",
+    "stopa bezrobocia - w % (GUS)": "bezrobocie",
+    "dynamika sprzeda\u017cy detalicznej - indeks r/r (GUS)": "spr_detaliczna",
+    "dynamika PKB - indeks r/r (GUS)": "pkb"
+}
