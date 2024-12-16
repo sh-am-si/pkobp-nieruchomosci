@@ -22,6 +22,7 @@ xlrd = "*"
 tabulate = "*"
 xgboost = "*"
 scikit-learn = "*"
+piecewise-regression = "*"
 
 [dev-packages]
 pytest = "*"

@@ -13,7 +13,7 @@ UWAGA! Gwałtowny wzrost popytu na kredyty i nieruchomości mieszkaniowe w drugi
 Program Bezpieczny Kredyt 2% został wygaszony z końcem 2023 roku. Na dzień dzisiejszy nie wiadomo czy zostanie wdrożony nowy program wsparcia dla kredytobiorców, dlatego należy przyjąć założenie, że w okresie objętym prognozą żadna forma wsparcia nie będzie funkcjonować.																	
 
 ## Dane
-Dane składają się z 11 kolumn bez brakujących punktów. Każda kolumna ma 42 wpisy wyznaczone na kwartały dla ostatnich 10 lat,  aby uzyskać więcej informacji, przeczytaj [tutaj](./pdfs/1_data_import.pdf). Moim zdaniem długość szeregów czasowych jest zbyt krótka, aby umożliwić efektywne modelowanie. Mimo to rynek nieruchomości w Polsce znajduje się w bezprecedensowej sytuacji rozwoju gospodarki. Przekształcając dane wejściowe na szeregi czasowe oznaczyłem je ostatnim dniem każdego kwartału, przeczytaj [tutaj](./pdfs/2_converting_to_ts.pdf).
+Dane składają się z 11 kolumn bez brakujących recordów. Każda kolumna ma 42 wpisy oznaczające kwartały dla ostatnich 10 lat,  aby uzyskać więcej informacji, przeczytaj [tutaj](./pdfs/1_data_import.pdf). Moim zdaniem długość szeregów czasowych jest zbyt krótka, aby umożliwić efektywne modelowanie. Mimo to rynek nieruchomości w Polsce znajduje się w bezprecedensowej sytuacji rozwoju gospodarki.Ten fakt podważa możliwość budowy skutecznego modelu. Przekształcając dane wejściowe na szeregi czasowe, oznaczyłem je ostatnim dniem każdego kwartału, przeczytaj [tutaj](./pdfs/2_converting_to_ts.pdf).
 
 Dla wygody zmieniono nazwy kolumn
 ```json
@@ -47,20 +47,20 @@ W trakcie rozwiązania zadania, zapoznałem się z następnymi materialami.
 
 > __Nic nie wskazuje, by czekało nas załamanie, ani dalsza koniunktura jak ostatnio__. Musimy pamiętać, że jesteśmy po latach rekordowych pod wieloma względami i kolejne lata będą na ich tle wzbudzały emocje.  
 
-2. Wideo na YouTube [11] Macieja Gołębiewskiego, gdzie stwierdza, że ​​ceny nieruchomości są stabilne według średniej pensji skorygowanej o inflację. Próbowałem powtórzyć jego podejście i uzyskałem podobne wyniki, więcej [tutaj](./pdfs/3_kor_wynag_cena.pdf)
+2. Wideo na YouTube [11] Macieja Gołębiewskiego, gdzie stwierdza, że ​​ceny nieruchomości są stabilne według przeciętnego wynagrodzenia skorygowanego o inflację. Próbowałem powtórzyć jego podejście i uzyskałem podobne wyniki, więcej [tutaj](./pdfs/3_kor_wynag_cena.pdf). W danym miejscu trzeba zoznaczyć, że jest widoczny wplyw programu Bezpieczny Kredyt 2%, ale po jego wycofaniu relacja pomiędzy dwuch wartości, wraca do swoich wcześniejszych wartości. 
    ![wykres](./images/ceva_vs_wynag.png)
 
 3. W artykule naukowym [7] badającym zależności cen nieruchomości w Polsce podano:
 
 >  Rynek nieruchomości w Polsce charakteryzuje się znaczną orientacją kredytową, co jest ułatwione przez długoterminowe stabilne lub spadające stopy procentowe kredytów hipotecznych i pożyczek udzielanych przedsiębiorstwom i zabezpieczonych nieruchomościami. Od 2012 r. takie kredyty walutowe są praktycznie niedostępne ze względu na stabilność złotego i dość atrakcyjną politykę cenową banków, a także niską wartość pieniądza na rynku finansowym.
 
-4. I co najważniejsze, raport PKO BP [9] wśród wszystkich innych przydatnych informacji mówi o stabilnej dostepności mieszkan w największych miastach (wykres 27).
+4. I co najważniejsze, raport PKO BP [9] wśród wszystkich innych przydatnych informacji mówi o stabilnej dostepności mieszkan w największych miastach (wykres 27), co potwierdza przypuszczenie eksperta Macieja Gołębiewskiego.
 
 ## Dodatkowe dane 
 
-1. Przeciętne wynagorodzenie od GUS [8], wiejcej [tutaj](./pdfs/gus_wynagrodzenie.pdf).
+1. Przeciętne wynagorodzenie pobrane ze strony GUS [8], wiejcej [tutaj](./pdfs/gus_wynagrodzenie.pdf).
 
-2. Nowa budowa w Polsce od GUS [8], wiejcej [tutaj](./pdfs/gus_deweloperzy.pdf).
+2. Nowa budowa w Polsce  pobrane ze strony GUS [8], wiejcej [tutaj](./pdfs/gus_deweloperzy.pdf).
 
 
 ## Wykres aktualnych dannych
@@ -101,7 +101,7 @@ W trakcie rozwiązania zadania, zapoznałem się z następnymi materialami.
 |   spr_detaliczna |    39 |     -0.15641 |   25.9084 |      -70 |    -11.4 |     0.6 |    9.85 |   64.4 |
 |              pkb |    39 |   -0.0205128 |   16.9326 |    -50.9 |    -3.95 |    -0.8 |    3.75 |     52 |
 
-# Korelacja
+## Korelacja
 
 <table id="T_6b362">
   <thead>
@@ -398,7 +398,53 @@ W trakcie rozwiązania zadania, zapoznałem się z następnymi materialami.
   </tbody>
 </table>
 
-Kolumny _ufność_ i _duże zakupy_ mają dużą korelacją, dlatego jedna z nich może być usunięta z modeli. Następny kandendat na usunięcie jadna kolumna z pary _sprzedaż detaliczna_ i _PKB_.
+Kolumny _ufność_ i _duże zakupy_ mają dużą korelacją, dlatego jedna z nich może być usunięta z modeli. Następny kandendat na usunięcie jadna kolumna z pary _sprzedaż detaliczna_ i _PKB_. Dodatkowo, widoczne bardzo mocna korrelacja _inflacja_q_kum_ i _rynek_.
+
+## Dystrybucja
+
+![Alt Text](./images/vis_distr.png)
+
+## Model
+
+### XGBoost
+
+Mając wyżej przedstawiąną analizę, próbowałem zastosować [XGBoost](./pdfs/4_xgboost.pdf) dla rożnych zbiórów predyktorów. Szukałem najlepsze hiperparametry, ale nie ogarnięłem nadmierne dopasowanie.
+
+### Holt-Winter podejście
+
+Choć [7] sugeruje wykorzystanie zastosowanie modeli Holta-Wintera, byłem przekonany, że XGBoost, jako pierwszy krok w zostasowanie zaawansowanych model ML będzie lepszy.
+
+### Regresija Liniowa
+
+Mając bardzo mocną korelacją pomiędzy ceną i inflacją, zastosowałem podstawowej modeli Regresji Liniowej, z wykorzystaniem wszystkich predyktorów. Parametry otrzymanej modeli są [tu](./pdfs/4_lr.pdf).
+
+```python
+from sklearn.linear_model import LinearRegression
+
+predictors = ['inflacja_r', 'inflacja_q', 'stopa_procentowa',
+        'liczba_kredytow', 'tempo_wzrostu', 'ufnosc', 'duze_zakupy',
+        'bezrobocie', 'spr_detaliczna', 'pkb', 'wynag', 'inflacja_q_kum',
+        'ogolem', 'rpk']
+outcome = 'rynek'
+
+model = LinearRegression()
+
+bn = 37
+model.fit(X=df[predictors].iloc[:bn], y=df[outcome].iloc[:bn])
+
+```
+Wynik
+![Alt Text](./images/lr_output.png)
+
+# Nodel
+
+Kroki dla predykcji ceny mieszkań dla __4Q2024__ i __5Q2025__, można ekstrapolować dane za pomocy autoregresji wektorowej, doposowając predwidzianymi danymi inflacji.
+
+# Podsumowanie
+
+Dziękujące analizy _Centrum Anal;izy PKO BP_ [9] i innych [7], [11] widoczne możliwość budowania podstawoej modeli. Jednak, według dużego zapotrzebowaniem dokładniejszego modeli, jest możliwośc wyrobenia bardziej zaawansowanego podejścia. 
+
+
 
 
 # Referencje

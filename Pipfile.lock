@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "9395b4ee1475b012f9b41bb70712b102cb43ec23efda06155928a7fdfc88ee9c"
+            "sha256": "c3e3d3d78947000a0b50a9d0e34b4f2a567e69b84f2cdfd611ea0fe5cc187966"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -1194,6 +1194,14 @@
             ],
             "markers": "sys_platform != 'win32' and sys_platform != 'emscripten'",
             "version": "==4.9.0"
+        },
+        "piecewise-regression": {
+            "hashes": [
+                "sha256:77d0111e2db06f077cf23ca5ca0b3e99cd852ec08a3c03c6bae23506f3c20612",
+                "sha256:9666346fca04db39aaddc8ceee0a22d06c3ee3fa7c58149487c020faf791a9b8"
+            ],
+            "index": "pypi",
+            "version": "==1.5.0"
         },
         "pillow": {
             "hashes": [
