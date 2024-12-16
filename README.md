@@ -13,7 +13,7 @@ UWAGA! Gwałtowny wzrost popytu na kredyty i nieruchomości mieszkaniowe w drugi
 Program Bezpieczny Kredyt 2% został wygaszony z końcem 2023 roku. Na dzień dzisiejszy nie wiadomo czy zostanie wdrożony nowy program wsparcia dla kredytobiorców, dlatego należy przyjąć założenie, że w okresie objętym prognozą żadna forma wsparcia nie będzie funkcjonować.																	
 
 ## Dane
-Dane składają się z 11 kolumn bez brakujących punktów. Każda kolumna ma 42 wpisy wyznaczone na kwartały dla ostatnich 10 lat,  aby uzyskać więcej informacji, przeczytaj [tutaj](./1_data_import.pdf). Moim zdaniem długość szeregów czasowych jest zbyt krótka, aby umożliwić efektywne modelowanie. Mimo to rynek nieruchomości w Polsce znajduje się w bezprecedensowej sytuacji rozwoju gospodarki. Przekształcając dane wejściowe na szeregi czasowe oznaczyłem je ostatnim dniem każdego kwartału, przeczytaj [tutaj](./2_converting_to_ts.pdf).
+Dane składają się z 11 kolumn bez brakujących punktów. Każda kolumna ma 42 wpisy wyznaczone na kwartały dla ostatnich 10 lat,  aby uzyskać więcej informacji, przeczytaj [tutaj](./pdfs/1_data_import.pdf). Moim zdaniem długość szeregów czasowych jest zbyt krótka, aby umożliwić efektywne modelowanie. Mimo to rynek nieruchomości w Polsce znajduje się w bezprecedensowej sytuacji rozwoju gospodarki. Przekształcając dane wejściowe na szeregi czasowe oznaczyłem je ostatnim dniem każdego kwartału, przeczytaj [tutaj](./pdfs/2_converting_to_ts.pdf).
 
 Dla wygody zmieniono nazwy kolumn
 ```json
@@ -47,7 +47,7 @@ W trakcie rozwiązania zadania, zapoznałem się z następnymi materialami.
 
 > __Nic nie wskazuje, by czekało nas załamanie, ani dalsza koniunktura jak ostatnio__. Musimy pamiętać, że jesteśmy po latach rekordowych pod wieloma względami i kolejne lata będą na ich tle wzbudzały emocje.  
 
-2. Wideo na YouTube [11] Macieja Gołębiewskiego, gdzie stwierdza, że ​​ceny nieruchomości są stabilne według średniej pensji skorygowanej o inflację. Próbowałem powtórzyć jego podejście i uzyskałem podobne wyniki, więcej [tutaj](./3_kor_wynag_cena.pdf)
+2. Wideo na YouTube [11] Macieja Gołębiewskiego, gdzie stwierdza, że ​​ceny nieruchomości są stabilne według średniej pensji skorygowanej o inflację. Próbowałem powtórzyć jego podejście i uzyskałem podobne wyniki, więcej [tutaj](./pdfs/3_kor_wynag_cena.pdf)
    ![wykres](./images/ceva_vs_wynag.png)
 
 3. W artykule naukowym [7] badającym zależności cen nieruchomości w Polsce podano:
@@ -58,9 +58,9 @@ W trakcie rozwiązania zadania, zapoznałem się z następnymi materialami.
 
 ## Dodatkowe dane 
 
-1. Przeciętne wynagorodzenie od GUS [8], wiejcej [tutaj](./gus_wynagrodzenie.pdf).
+1. Przeciętne wynagorodzenie od GUS [8], wiejcej [tutaj](./pdfs/gus_wynagrodzenie.pdf).
 
-2. Nowa budowa w Polsce od GUS [8], wiejcej [tutaj](./gus_deweloperzy.pdf).
+2. Nowa budowa w Polsce od GUS [8], wiejcej [tutaj](./pdfs/gus_deweloperzy.pdf).
 
 
 ## Wykres aktualnych dannych
