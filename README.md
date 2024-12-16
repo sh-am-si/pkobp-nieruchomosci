@@ -13,7 +13,7 @@ UWAGA! Gwałtowny wzrost popytu na kredyty i nieruchomości mieszkaniowe w drugi
 Program Bezpieczny Kredyt 2% został wygaszony z końcem 2023 roku. Na dzień dzisiejszy nie wiadomo czy zostanie wdrożony nowy program wsparcia dla kredytobiorców, dlatego należy przyjąć założenie, że w okresie objętym prognozą żadna forma wsparcia nie będzie funkcjonować.																	
 
 ## Dane
-Dane składają się z 11 kolumn bez brakujących punktów. Każda kolumna ma 42 wpisy wyznaczone na kwartały dla ostatnich 10 lat,  aby uzyskać więcej informacji, przeczytaj [tutaj](./1_data_import.pdf). Przekształcając dane wejściowe na szeregi czasowe oznaczyłem je ostatnim dniem każdego kwartału, przeczytaj [tutaj](./2_converting_to_ts.pdf).
+Dane składają się z 11 kolumn bez brakujących punktów. Każda kolumna ma 42 wpisy wyznaczone na kwartały dla ostatnich 10 lat,  aby uzyskać więcej informacji, przeczytaj [tutaj](./1_data_import.pdf). Moim zdaniem długość szeregów czasowych jest zbyt krótka, aby umożliwić efektywne modelowanie. Mimo to rynek nieruchomości w Polsce znajduje się w bezprecedensowej sytuacji rozwoju gospodarki. Przekształcając dane wejściowe na szeregi czasowe oznaczyłem je ostatnim dniem każdego kwartału, przeczytaj [tutaj](./2_converting_to_ts.pdf).
 
 Dla wygody zmieniono nazwy kolumn
 ```json
@@ -103,504 +103,864 @@ W trakcie rozwiązania zadania, zapoznałem się z następnymi materialami.
 
 # Korelacja
 
-
-<table id="T_875bc">
 <style type="text/css">
-#T_875bc_row0_col0, #T_875bc_row1_col1, #T_875bc_row2_col2, #T_875bc_row3_col3, #T_875bc_row4_col4, #T_875bc_row5_col5, #T_875bc_row6_col6, #T_875bc_row7_col7, #T_875bc_row8_col8, #T_875bc_row9_col9, #T_875bc_row10_col10 {
+#T_6b362 th {
+  width: 40px;
+}
+#T_6b362 th.col_heading {
+  writing-mode: vertical-rl;
+  transform: rotateZ(180deg);
+  height: 120px;
+  vertical-align: top;
+}
+#T_6b362_row0_col0, #T_6b362_row1_col1, #T_6b362_row2_col2, #T_6b362_row3_col3, #T_6b362_row4_col4, #T_6b362_row5_col5, #T_6b362_row6_col6, #T_6b362_row7_col7, #T_6b362_row8_col8, #T_6b362_row9_col9, #T_6b362_row10_col10, #T_6b362_row11_col11, #T_6b362_row12_col12, #T_6b362_row13_col13, #T_6b362_row14_col14 {
   background-color: #b40426;
   color: #f1f1f1;
 }
-#T_875bc_row0_col1 {
-  background-color: #ee8468;
+#T_6b362_row0_col1 {
+  background-color: #e97a5f;
   color: #f1f1f1;
 }
-#T_875bc_row0_col2, #T_875bc_row4_col6 {
-  background-color: #f6a586;
+#T_6b362_row0_col2, #T_6b362_row2_col13 {
+  background-color: #f5a081;
   color: #000000;
 }
-#T_875bc_row0_col3, #T_875bc_row1_col3, #T_875bc_row2_col5 {
-  background-color: #e46e56;
-  color: #f1f1f1;
-}
-#T_875bc_row0_col4, #T_875bc_row4_col5 {
-  background-color: #a5c3fe;
-  color: #000000;
-}
-#T_875bc_row0_col5, #T_875bc_row1_col5, #T_875bc_row5_col0, #T_875bc_row5_col1 {
-  background-color: #d55042;
-  color: #f1f1f1;
-}
-#T_875bc_row0_col6, #T_875bc_row2_col8 {
-  background-color: #5d7ce6;
-  color: #f1f1f1;
-}
-#T_875bc_row0_col7, #T_875bc_row1_col10, #T_875bc_row2_col6 {
-  background-color: #4f69d9;
-  color: #f1f1f1;
-}
-#T_875bc_row0_col8, #T_875bc_row6_col3 {
-  background-color: #3d50c3;
-  color: #f1f1f1;
-}
-#T_875bc_row0_col9, #T_875bc_row0_col10, #T_875bc_row1_col6, #T_875bc_row1_col7, #T_875bc_row3_col4, #T_875bc_row5_col8, #T_875bc_row6_col1, #T_875bc_row6_col2, #T_875bc_row7_col3, #T_875bc_row8_col0, #T_875bc_row8_col5 {
-  background-color: #3b4cc0;
-  color: #f1f1f1;
-}
-#T_875bc_row1_col0 {
-  background-color: #ee8669;
-  color: #f1f1f1;
-}
-#T_875bc_row1_col2, #T_875bc_row5_col3 {
-  background-color: #dc5d4a;
-  color: #f1f1f1;
-}
-#T_875bc_row1_col4 {
-  background-color: #3f53c6;
-  color: #f1f1f1;
-}
-#T_875bc_row1_col8 {
-  background-color: #4e68d8;
-  color: #f1f1f1;
-}
-#T_875bc_row1_col9 {
-  background-color: #3c4ec2;
-  color: #f1f1f1;
-}
-#T_875bc_row2_col0 {
-  background-color: #f59f80;
-  color: #000000;
-}
-#T_875bc_row2_col1, #T_875bc_row3_col5 {
-  background-color: #d95847;
-  color: #f1f1f1;
-}
-#T_875bc_row2_col3, #T_875bc_row3_col2 {
-  background-color: #f59d7e;
-  color: #000000;
-}
-#T_875bc_row2_col4 {
-  background-color: #6788ee;
-  color: #f1f1f1;
-}
-#T_875bc_row2_col7 {
-  background-color: #5673e0;
-  color: #f1f1f1;
-}
-#T_875bc_row2_col9 {
-  background-color: #88abfd;
-  color: #000000;
-}
-#T_875bc_row2_col10 {
-  background-color: #93b5fe;
-  color: #000000;
-}
-#T_875bc_row3_col0 {
-  background-color: #e36b54;
-  color: #f1f1f1;
-}
-#T_875bc_row3_col1 {
-  background-color: #e26952;
-  color: #f1f1f1;
-}
-#T_875bc_row3_col6 {
-  background-color: #516ddb;
-  color: #f1f1f1;
-}
-#T_875bc_row3_col7, #T_875bc_row7_col1 {
-  background-color: #445acc;
-  color: #f1f1f1;
-}
-#T_875bc_row3_col8 {
-  background-color: #7396f5;
-  color: #f1f1f1;
-}
-#T_875bc_row3_col9 {
-  background-color: #4358cb;
-  color: #f1f1f1;
-}
-#T_875bc_row3_col10, #T_875bc_row4_col3, #T_875bc_row7_col2 {
-  background-color: #4b64d5;
-  color: #f1f1f1;
-}
-#T_875bc_row4_col0 {
-  background-color: #bcd2f7;
-  color: #000000;
-}
-#T_875bc_row4_col1 {
-  background-color: #6485ec;
-  color: #f1f1f1;
-}
-#T_875bc_row4_col2 {
-  background-color: #799cf8;
-  color: #f1f1f1;
-}
-#T_875bc_row4_col7 {
-  background-color: #f7aa8c;
-  color: #000000;
-}
-#T_875bc_row4_col8 {
-  background-color: #aac7fd;
-  color: #000000;
-}
-#T_875bc_row4_col9 {
-  background-color: #dedcdb;
-  color: #000000;
-}
-#T_875bc_row4_col10, #T_875bc_row9_col5 {
-  background-color: #c3d5f4;
-  color: #000000;
-}
-#T_875bc_row5_col2 {
+#T_6b362_row0_col3, #T_6b362_row5_col2 {
   background-color: #e7745b;
   color: #f1f1f1;
 }
-#T_875bc_row5_col4 {
-  background-color: #86a9fc;
-  color: #f1f1f1;
-}
-#T_875bc_row5_col6 {
-  background-color: #6384eb;
-  color: #f1f1f1;
-}
-#T_875bc_row5_col7, #T_875bc_row6_col5 {
-  background-color: #6180e9;
-  color: #f1f1f1;
-}
-#T_875bc_row5_col9 {
-  background-color: #7ea1fa;
-  color: #f1f1f1;
-}
-#T_875bc_row5_col10 {
-  background-color: #98b9ff;
+#T_6b362_row0_col4, #T_6b362_row1_col14, #T_6b362_row9_col13 {
+  background-color: #a7c5fe;
   color: #000000;
 }
-#T_875bc_row6_col0 {
+#T_6b362_row0_col5, #T_6b362_row5_col0 {
+  background-color: #d24b40;
+  color: #f1f1f1;
+}
+#T_6b362_row0_col6 {
   background-color: #5875e1;
   color: #f1f1f1;
 }
-#T_875bc_row6_col4 {
-  background-color: #f7b396;
-  color: #000000;
-}
-#T_875bc_row6_col7, #T_875bc_row7_col6 {
-  background-color: #b70d28;
+#T_6b362_row0_col7, #T_6b362_row2_col14, #T_6b362_row4_col3, #T_6b362_row8_col2, #T_6b362_row11_col10 {
+  background-color: #4b64d5;
   color: #f1f1f1;
 }
-#T_875bc_row6_col8 {
-  background-color: #cad8ef;
-  color: #000000;
-}
-#T_875bc_row6_col9 {
-  background-color: #e0dbd8;
-  color: #000000;
-}
-#T_875bc_row6_col10 {
-  background-color: #c1d4f4;
-  color: #000000;
-}
-#T_875bc_row7_col0 {
-  background-color: #5470de;
+#T_6b362_row0_col8, #T_6b362_row3_col7, #T_6b362_row12_col7 {
+  background-color: #4358cb;
   color: #f1f1f1;
 }
-#T_875bc_row7_col4 {
-  background-color: #f7b497;
-  color: #000000;
-}
-#T_875bc_row7_col5 {
-  background-color: #688aef;
+#T_6b362_row0_col9, #T_6b362_row2_col7 {
+  background-color: #5673e0;
   color: #f1f1f1;
 }
-#T_875bc_row7_col8 {
-  background-color: #c5d6f2;
-  color: #000000;
-}
-#T_875bc_row7_col9 {
-  background-color: #edd2c3;
-  color: #000000;
-}
-#T_875bc_row7_col10 {
-  background-color: #d7dce3;
-  color: #000000;
-}
-#T_875bc_row8_col1 {
-  background-color: #506bda;
+#T_6b362_row0_col10 {
+  background-color: #516ddb;
   color: #f1f1f1;
 }
-#T_875bc_row8_col2 {
-  background-color: #4a63d3;
+#T_6b362_row0_col11, #T_6b362_row11_col0 {
+  background-color: #b50927;
   color: #f1f1f1;
 }
-#T_875bc_row8_col3 {
-  background-color: #6282ea;
+#T_6b362_row0_col12 {
+  background-color: #c12b30;
   color: #f1f1f1;
 }
-#T_875bc_row8_col4 {
-  background-color: #8caffe;
-  color: #000000;
-}
-#T_875bc_row8_col6 {
-  background-color: #ccd9ed;
-  color: #000000;
-}
-#T_875bc_row8_col7 {
-  background-color: #c0d4f5;
-  color: #000000;
-}
-#T_875bc_row8_col9 {
-  background-color: #a2c1ff;
-  color: #000000;
-}
-#T_875bc_row8_col10 {
-  background-color: #7da0f9;
+#T_6b362_row0_col13 {
+  background-color: #f18f71;
   color: #f1f1f1;
 }
-#T_875bc_row9_col0 {
-  background-color: #8badfd;
+#T_6b362_row0_col14 {
+  background-color: #d4dbe6;
   color: #000000;
 }
-#T_875bc_row9_col1 {
-  background-color: #92b4fe;
-  color: #000000;
-}
-#T_875bc_row9_col2 {
-  background-color: #bed2f6;
-  color: #000000;
-}
-#T_875bc_row9_col3 {
-  background-color: #85a8fc;
+#T_6b362_row1_col0 {
+  background-color: #ea7b60;
   color: #f1f1f1;
 }
-#T_875bc_row9_col4 {
-  background-color: #efcebd;
-  color: #000000;
+#T_6b362_row1_col2, #T_6b362_row5_col3 {
+  background-color: #dc5d4a;
+  color: #f1f1f1;
 }
-#T_875bc_row9_col6 {
-  background-color: #f5c0a7;
-  color: #000000;
+#T_6b362_row1_col3, #T_6b362_row3_col11 {
+  background-color: #e26952;
+  color: #f1f1f1;
 }
-#T_875bc_row9_col7 {
-  background-color: #f7b79b;
-  color: #000000;
+#T_6b362_row1_col4, #T_6b362_row5_col8, #T_6b362_row6_col12, #T_6b362_row8_col12 {
+  background-color: #4257c9;
+  color: #f1f1f1;
 }
-#T_875bc_row9_col8 {
-  background-color: #d8dce2;
-  color: #000000;
-}
-#T_875bc_row9_col10 {
+#T_6b362_row1_col5, #T_6b362_row5_col1 {
   background-color: #d44e41;
   color: #f1f1f1;
 }
-#T_875bc_row10_col0 {
-  background-color: #9dbdff;
+#T_6b362_row1_col6, #T_6b362_row1_col7, #T_6b362_row3_col4, #T_6b362_row6_col1, #T_6b362_row6_col2, #T_6b362_row7_col3, #T_6b362_row7_col12, #T_6b362_row8_col0, #T_6b362_row8_col5, #T_6b362_row8_col11, #T_6b362_row8_col13, #T_6b362_row8_col14, #T_6b362_row10_col14, #T_6b362_row11_col8, #T_6b362_row12_col9, #T_6b362_row12_col10 {
+  background-color: #3b4cc0;
+  color: #f1f1f1;
+}
+#T_6b362_row1_col8 {
+  background-color: #5470de;
+  color: #f1f1f1;
+}
+#T_6b362_row1_col9, #T_6b362_row7_col2, #T_6b362_row11_col9 {
+  background-color: #4c66d6;
+  color: #f1f1f1;
+}
+#T_6b362_row1_col10, #T_6b362_row4_col1 {
+  background-color: #6485ec;
+  color: #f1f1f1;
+}
+#T_6b362_row1_col11, #T_6b362_row3_col0, #T_6b362_row11_col1 {
+  background-color: #e57058;
+  color: #f1f1f1;
+}
+#T_6b362_row1_col12 {
+  background-color: #eb7d62;
+  color: #f1f1f1;
+}
+#T_6b362_row1_col13, #T_6b362_row13_col1 {
+  background-color: #ee8669;
+  color: #f1f1f1;
+}
+#T_6b362_row2_col0, #T_6b362_row2_col3, #T_6b362_row2_col11 {
+  background-color: #f59c7d;
   color: #000000;
 }
-#T_875bc_row10_col1 {
-  background-color: #b2ccfb;
+#T_6b362_row2_col1 {
+  background-color: #d95847;
+  color: #f1f1f1;
+}
+#T_6b362_row2_col4 {
+  background-color: #6a8bef;
+  color: #f1f1f1;
+}
+#T_6b362_row2_col5 {
+  background-color: #e46e56;
+  color: #f1f1f1;
+}
+#T_6b362_row2_col6, #T_6b362_row3_col6 {
+  background-color: #4f69d9;
+  color: #f1f1f1;
+}
+#T_6b362_row2_col8, #T_6b362_row3_col10, #T_6b362_row5_col6, #T_6b362_row6_col11 {
+  background-color: #6384eb;
+  color: #f1f1f1;
+}
+#T_6b362_row2_col9 {
+  background-color: #9bbcff;
   color: #000000;
 }
-#T_875bc_row10_col2 {
-  background-color: #d1dae9;
+#T_6b362_row2_col10 {
+  background-color: #a6c4fe;
   color: #000000;
 }
-#T_875bc_row10_col3 {
-  background-color: #9fbfff;
+#T_6b362_row2_col12, #T_6b362_row12_col2 {
+  background-color: #f7ba9f;
   color: #000000;
 }
-#T_875bc_row10_col4 {
-  background-color: #e6d7cf;
+#T_6b362_row3_col1 {
+  background-color: #e0654f;
+  color: #f1f1f1;
+}
+#T_6b362_row3_col2 {
+  background-color: #f59d7e;
   color: #000000;
 }
-#T_875bc_row10_col5 {
-  background-color: #dcdddd;
+#T_6b362_row3_col5, #T_6b362_row5_col12 {
+  background-color: #da5a49;
+  color: #f1f1f1;
+}
+#T_6b362_row3_col8, #T_6b362_row10_col12 {
+  background-color: #7da0f9;
+  color: #f1f1f1;
+}
+#T_6b362_row3_col9 {
+  background-color: #5b7ae5;
+  color: #f1f1f1;
+}
+#T_6b362_row3_col12, #T_6b362_row12_col3 {
+  background-color: #d65244;
+  color: #f1f1f1;
+}
+#T_6b362_row3_col13 {
+  background-color: #f2cbb7;
   color: #000000;
 }
-#T_875bc_row10_col6 {
-  background-color: #f0cdbb;
+#T_6b362_row3_col14, #T_6b362_row4_col10 {
+  background-color: #cfdaea;
   color: #000000;
 }
-#T_875bc_row10_col7 {
-  background-color: #f5c4ac;
+#T_6b362_row4_col0 {
+  background-color: #bed2f6;
   color: #000000;
 }
-#T_875bc_row10_col8 {
+#T_6b362_row4_col2 {
+  background-color: #799cf8;
+  color: #f1f1f1;
+}
+#T_6b362_row4_col5 {
+  background-color: #a5c3fe;
+  color: #000000;
+}
+#T_6b362_row4_col6, #T_6b362_row11_col2 {
+  background-color: #f6a586;
+  color: #000000;
+}
+#T_6b362_row4_col7 {
+  background-color: #f7aa8c;
+  color: #000000;
+}
+#T_6b362_row4_col8 {
+  background-color: #aec9fc;
+  color: #000000;
+}
+#T_6b362_row4_col9 {
+  background-color: #e5d8d1;
+  color: #000000;
+}
+#T_6b362_row4_col11 {
+  background-color: #bcd2f7;
+  color: #000000;
+}
+#T_6b362_row4_col12, #T_6b362_row9_col3 {
+  background-color: #8fb1fe;
+  color: #000000;
+}
+#T_6b362_row4_col13, #T_6b362_row8_col6 {
+  background-color: #cbd8ee;
+  color: #000000;
+}
+#T_6b362_row4_col14 {
+  background-color: #97b8ff;
+  color: #000000;
+}
+#T_6b362_row5_col4 {
+  background-color: #89acfd;
+  color: #000000;
+}
+#T_6b362_row5_col7, #T_6b362_row7_col11 {
+  background-color: #6180e9;
+  color: #f1f1f1;
+}
+#T_6b362_row5_col9, #T_6b362_row9_col0 {
+  background-color: #96b7ff;
+  color: #000000;
+}
+#T_6b362_row5_col10 {
+  background-color: #adc9fd;
+  color: #000000;
+}
+#T_6b362_row5_col11, #T_6b362_row9_col10, #T_6b362_row11_col5 {
+  background-color: #cf453c;
+  color: #f1f1f1;
+}
+#T_6b362_row5_col13 {
+  background-color: #f39577;
+  color: #000000;
+}
+#T_6b362_row5_col14 {
+  background-color: #bbd1f8;
+  color: #000000;
+}
+#T_6b362_row6_col0, #T_6b362_row6_col14, #T_6b362_row11_col7 {
+  background-color: #536edd;
+  color: #f1f1f1;
+}
+#T_6b362_row6_col3 {
+  background-color: #3c4ec2;
+  color: #f1f1f1;
+}
+#T_6b362_row6_col4 {
+  background-color: #f7b396;
+  color: #000000;
+}
+#T_6b362_row6_col5, #T_6b362_row11_col6 {
+  background-color: #5f7fe8;
+  color: #f1f1f1;
+}
+#T_6b362_row6_col7, #T_6b362_row7_col6 {
+  background-color: #b70d28;
+  color: #f1f1f1;
+}
+#T_6b362_row6_col8 {
+  background-color: #cdd9ec;
+  color: #000000;
+}
+#T_6b362_row6_col9 {
+  background-color: #e7d7ce;
+  color: #000000;
+}
+#T_6b362_row6_col10 {
   background-color: #cedaeb;
   color: #000000;
 }
-#T_875bc_row10_col9 {
-  background-color: #d1493f;
+#T_6b362_row6_col13, #T_6b362_row13_col6 {
+  background-color: #7ea1fa;
   color: #f1f1f1;
 }
+#T_6b362_row7_col0, #T_6b362_row8_col1 {
+  background-color: #506bda;
+  color: #f1f1f1;
+}
+#T_6b362_row7_col1 {
+  background-color: #445acc;
+  color: #f1f1f1;
+}
+#T_6b362_row7_col4, #T_6b362_row13_col12 {
+  background-color: #f7b497;
+  color: #000000;
+}
+#T_6b362_row7_col5, #T_6b362_row8_col3 {
+  background-color: #6788ee;
+  color: #f1f1f1;
+}
+#T_6b362_row7_col8, #T_6b362_row9_col5 {
+  background-color: #c7d7f0;
+  color: #000000;
+}
+#T_6b362_row7_col9 {
+  background-color: #f1cdba;
+  color: #000000;
+}
+#T_6b362_row7_col10 {
+  background-color: #e0dbd8;
+  color: #000000;
+}
+#T_6b362_row7_col13 {
+  background-color: #8caffe;
+  color: #000000;
+}
+#T_6b362_row7_col14 {
+  background-color: #4055c8;
+  color: #f1f1f1;
+}
+#T_6b362_row8_col4 {
+  background-color: #8db0fe;
+  color: #000000;
+}
+#T_6b362_row8_col7 {
+  background-color: #bfd3f6;
+  color: #000000;
+}
+#T_6b362_row8_col9 {
+  background-color: #a9c6fd;
+  color: #000000;
+}
+#T_6b362_row8_col10 {
+  background-color: #90b2fe;
+  color: #000000;
+}
+#T_6b362_row9_col1 {
+  background-color: #92b4fe;
+  color: #000000;
+}
+#T_6b362_row9_col2 {
+  background-color: #c0d4f5;
+  color: #000000;
+}
+#T_6b362_row9_col4, #T_6b362_row10_col6, #T_6b362_row14_col3 {
+  background-color: #f0cdbb;
+  color: #000000;
+}
+#T_6b362_row9_col6 {
+  background-color: #f5c0a7;
+  color: #000000;
+}
+#T_6b362_row9_col7 {
+  background-color: #f7b79b;
+  color: #000000;
+}
+#T_6b362_row9_col8 {
+  background-color: #d7dce3;
+  color: #000000;
+}
+#T_6b362_row9_col11 {
+  background-color: #94b6ff;
+  color: #000000;
+}
+#T_6b362_row9_col12 {
+  background-color: #6e90f2;
+  color: #f1f1f1;
+}
+#T_6b362_row9_col14 {
+  background-color: #3f53c6;
+  color: #f1f1f1;
+}
+#T_6b362_row10_col0 {
+  background-color: #9ebeff;
+  color: #000000;
+}
+#T_6b362_row10_col1 {
+  background-color: #b2ccfb;
+  color: #000000;
+}
+#T_6b362_row10_col2 {
+  background-color: #d2dbe8;
+  color: #000000;
+}
+#T_6b362_row10_col3 {
+  background-color: #a2c1ff;
+  color: #000000;
+}
+#T_6b362_row10_col4 {
+  background-color: #e6d7cf;
+  color: #000000;
+}
+#T_6b362_row10_col5 {
+  background-color: #dddcdc;
+  color: #000000;
+}
+#T_6b362_row10_col7 {
+  background-color: #f5c4ac;
+  color: #000000;
+}
+#T_6b362_row10_col8 {
+  background-color: #d1dae9;
+  color: #000000;
+}
+#T_6b362_row10_col9 {
+  background-color: #cd423b;
+  color: #f1f1f1;
+}
+#T_6b362_row10_col11, #T_6b362_row11_col4, #T_6b362_row14_col8 {
+  background-color: #9fbfff;
+  color: #000000;
+}
+#T_6b362_row10_col13 {
+  background-color: #b6cefa;
+  color: #000000;
+}
+#T_6b362_row11_col3 {
+  background-color: #e36c55;
+  color: #f1f1f1;
+}
+#T_6b362_row11_col12 {
+  background-color: #bd1f2d;
+  color: #f1f1f1;
+}
+#T_6b362_row11_col13 {
+  background-color: #f08b6e;
+  color: #f1f1f1;
+}
+#T_6b362_row11_col14 {
+  background-color: #e1dad6;
+  color: #000000;
+}
+#T_6b362_row12_col0 {
+  background-color: #c0282f;
+  color: #f1f1f1;
+}
+#T_6b362_row12_col1 {
+  background-color: #e9785d;
+  color: #f1f1f1;
+}
+#T_6b362_row12_col4 {
+  background-color: #80a3fa;
+  color: #f1f1f1;
+}
+#T_6b362_row12_col5 {
+  background-color: #d85646;
+  color: #f1f1f1;
+}
+#T_6b362_row12_col6 {
+  background-color: #5572df;
+  color: #f1f1f1;
+}
+#T_6b362_row12_col8 {
+  background-color: #5977e3;
+  color: #f1f1f1;
+}
+#T_6b362_row12_col11 {
+  background-color: #bb1b2c;
+  color: #f1f1f1;
+}
+#T_6b362_row12_col13 {
+  background-color: #f7ad90;
+  color: #000000;
+}
+#T_6b362_row12_col14 {
+  background-color: #efcfbf;
+  color: #000000;
+}
+#T_6b362_row13_col0 {
+  background-color: #f29072;
+  color: #f1f1f1;
+}
+#T_6b362_row13_col2 {
+  background-color: #f7a889;
+  color: #000000;
+}
+#T_6b362_row13_col3 {
+  background-color: #edd1c2;
+  color: #000000;
+}
+#T_6b362_row13_col4 {
+  background-color: #b5cdfa;
+  color: #000000;
+}
+#T_6b362_row13_col5 {
+  background-color: #f39778;
+  color: #000000;
+}
+#T_6b362_row13_col7 {
+  background-color: #82a6fb;
+  color: #f1f1f1;
+}
+#T_6b362_row13_col8 {
+  background-color: #3d50c3;
+  color: #f1f1f1;
+}
+#T_6b362_row13_col9 {
+  background-color: #6687ed;
+  color: #f1f1f1;
+}
+#T_6b362_row13_col10 {
+  background-color: #6b8df0;
+  color: #f1f1f1;
+}
+#T_6b362_row13_col11 {
+  background-color: #f08a6c;
+  color: #f1f1f1;
+}
+#T_6b362_row13_col14, #T_6b362_row14_col7 {
+  background-color: #98b9ff;
+  color: #000000;
+}
+#T_6b362_row14_col0 {
+  background-color: #f3c7b1;
+  color: #000000;
+}
+#T_6b362_row14_col1 {
+  background-color: #e3d9d3;
+  color: #000000;
+}
+#T_6b362_row14_col2 {
+  background-color: #9abbff;
+  color: #000000;
+}
+#T_6b362_row14_col4 {
+  background-color: #c9d7f0;
+  color: #000000;
+}
+#T_6b362_row14_col5 {
+  background-color: #ebd3c6;
+  color: #000000;
+}
+#T_6b362_row14_col6 {
+  background-color: #afcafc;
+  color: #000000;
+}
+#T_6b362_row14_col9 {
+  background-color: #5e7de7;
+  color: #f1f1f1;
+}
+#T_6b362_row14_col10 {
+  background-color: #4a63d3;
+  color: #f1f1f1;
+}
+#T_6b362_row14_col11 {
+  background-color: #f7b99e;
+  color: #000000;
+}
+#T_6b362_row14_col12 {
+  background-color: #f7b194;
+  color: #000000;
+}
+#T_6b362_row14_col13 {
+  background-color: #dbdcde;
+  color: #000000;
+}
 </style>
+<table id="T_6b362">
   <thead>
     <tr>
       <th class="blank level0" >&nbsp;</th>
-      <th id="T_875bc_level0_col0" class="col_heading level0 col0" >rynek</th>
-      <th id="T_875bc_level0_col1" class="col_heading level0 col1" >inflacja_r</th>
-      <th id="T_875bc_level0_col2" class="col_heading level0 col2" >inflacja_q</th>
-      <th id="T_875bc_level0_col3" class="col_heading level0 col3" >stopa_procentowa</th>
-      <th id="T_875bc_level0_col4" class="col_heading level0 col4" >liczba_kredytow</th>
-      <th id="T_875bc_level0_col5" class="col_heading level0 col5" >tempo_wzrostu</th>
-      <th id="T_875bc_level0_col6" class="col_heading level0 col6" >ufnosc</th>
-      <th id="T_875bc_level0_col7" class="col_heading level0 col7" >duze_zakupy</th>
-      <th id="T_875bc_level0_col8" class="col_heading level0 col8" >bezrobocie</th>
-      <th id="T_875bc_level0_col9" class="col_heading level0 col9" >spr_detaliczna</th>
-      <th id="T_875bc_level0_col10" class="col_heading level0 col10" >pkb</th>
+      <th id="T_6b362_level0_col0" class="col_heading level0 col0" >rynek</th>
+      <th id="T_6b362_level0_col1" class="col_heading level0 col1" >inflacja_r</th>
+      <th id="T_6b362_level0_col2" class="col_heading level0 col2" >inflacja_q</th>
+      <th id="T_6b362_level0_col3" class="col_heading level0 col3" >stopa_procentowa</th>
+      <th id="T_6b362_level0_col4" class="col_heading level0 col4" >liczba_kredytow</th>
+      <th id="T_6b362_level0_col5" class="col_heading level0 col5" >tempo_wzrostu</th>
+      <th id="T_6b362_level0_col6" class="col_heading level0 col6" >ufnosc</th>
+      <th id="T_6b362_level0_col7" class="col_heading level0 col7" >duze_zakupy</th>
+      <th id="T_6b362_level0_col8" class="col_heading level0 col8" >bezrobocie</th>
+      <th id="T_6b362_level0_col9" class="col_heading level0 col9" >spr_detaliczna</th>
+      <th id="T_6b362_level0_col10" class="col_heading level0 col10" >pkb</th>
+      <th id="T_6b362_level0_col11" class="col_heading level0 col11" >wynag</th>
+      <th id="T_6b362_level0_col12" class="col_heading level0 col12" >inflacja_q_kum</th>
+      <th id="T_6b362_level0_col13" class="col_heading level0 col13" >ogolem</th>
+      <th id="T_6b362_level0_col14" class="col_heading level0 col14" >rpk</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th id="T_875bc_level0_row0" class="row_heading level0 row0" >rynek</th>
-      <td id="T_875bc_row0_col0" class="data row0 col0" >1.000</td>
-      <td id="T_875bc_row0_col1" class="data row0 col1" >0.657</td>
-      <td id="T_875bc_row0_col2" class="data row0 col2" >0.558</td>
-      <td id="T_875bc_row0_col3" class="data row0 col3" >0.751</td>
-      <td id="T_875bc_row0_col4" class="data row0 col4" >-0.023</td>
-      <td id="T_875bc_row0_col5" class="data row0 col5" >0.840</td>
-      <td id="T_875bc_row0_col6" class="data row0 col6" >-0.517</td>
-      <td id="T_875bc_row0_col7" class="data row0 col7" >-0.535</td>
-      <td id="T_875bc_row0_col8" class="data row0 col8" >-0.678</td>
-      <td id="T_875bc_row0_col9" class="data row0 col9" >-0.266</td>
-      <td id="T_875bc_row0_col10" class="data row0 col10" >-0.182</td>
+      <th id="T_6b362_level0_row0" class="row_heading level0 row0" >rynek</th>
+      <td id="T_6b362_row0_col0" class="data row0 col0" >1.00</td>
+      <td id="T_6b362_row0_col1" class="data row0 col1" >0.70</td>
+      <td id="T_6b362_row0_col2" class="data row0 col2" >0.57</td>
+      <td id="T_6b362_row0_col3" class="data row0 col3" >0.74</td>
+      <td id="T_6b362_row0_col4" class="data row0 col4" >-0.02</td>
+      <td id="T_6b362_row0_col5" class="data row0 col5" >0.85</td>
+      <td id="T_6b362_row0_col6" class="data row0 col6" >-0.54</td>
+      <td id="T_6b362_row0_col7" class="data row0 col7" >-0.56</td>
+      <td id="T_6b362_row0_col8" class="data row0 col8" >-0.68</td>
+      <td id="T_6b362_row0_col9" class="data row0 col9" >-0.22</td>
+      <td id="T_6b362_row0_col10" class="data row0 col10" >-0.18</td>
+      <td id="T_6b362_row0_col11" class="data row0 col11" >0.99</td>
+      <td id="T_6b362_row0_col12" class="data row0 col12" >0.94</td>
+      <td id="T_6b362_row0_col13" class="data row0 col13" >0.62</td>
+      <td id="T_6b362_row0_col14" class="data row0 col14" >0.36</td>
     </tr>
     <tr>
-      <th id="T_875bc_level0_row1" class="row_heading level0 row1" >inflacja_r</th>
-      <td id="T_875bc_row1_col0" class="data row1 col0" >0.657</td>
-      <td id="T_875bc_row1_col1" class="data row1 col1" >1.000</td>
-      <td id="T_875bc_row1_col2" class="data row1 col2" >0.812</td>
-      <td id="T_875bc_row1_col3" class="data row1 col3" >0.756</td>
-      <td id="T_875bc_row1_col4" class="data row1 col4" >-0.477</td>
-      <td id="T_875bc_row1_col5" class="data row1 col5" >0.837</td>
-      <td id="T_875bc_row1_col6" class="data row1 col6" >-0.708</td>
-      <td id="T_875bc_row1_col7" class="data row1 col7" >-0.648</td>
-      <td id="T_875bc_row1_col8" class="data row1 col8" >-0.582</td>
-      <td id="T_875bc_row1_col9" class="data row1 col9" >-0.258</td>
-      <td id="T_875bc_row1_col10" class="data row1 col10" >-0.099</td>
+      <th id="T_6b362_level0_row1" class="row_heading level0 row1" >inflacja_r</th>
+      <td id="T_6b362_row1_col0" class="data row1 col0" >0.70</td>
+      <td id="T_6b362_row1_col1" class="data row1 col1" >1.00</td>
+      <td id="T_6b362_row1_col2" class="data row1 col2" >0.81</td>
+      <td id="T_6b362_row1_col3" class="data row1 col3" >0.77</td>
+      <td id="T_6b362_row1_col4" class="data row1 col4" >-0.48</td>
+      <td id="T_6b362_row1_col5" class="data row1 col5" >0.84</td>
+      <td id="T_6b362_row1_col6" class="data row1 col6" >-0.71</td>
+      <td id="T_6b362_row1_col7" class="data row1 col7" >-0.65</td>
+      <td id="T_6b362_row1_col8" class="data row1 col8" >-0.58</td>
+      <td id="T_6b362_row1_col9" class="data row1 col9" >-0.26</td>
+      <td id="T_6b362_row1_col10" class="data row1 col10" >-0.10</td>
+      <td id="T_6b362_row1_col11" class="data row1 col11" >0.73</td>
+      <td id="T_6b362_row1_col12" class="data row1 col12" >0.70</td>
+      <td id="T_6b362_row1_col13" class="data row1 col13" >0.65</td>
+      <td id="T_6b362_row1_col14" class="data row1 col14" >0.19</td>
     </tr>
     <tr>
-      <th id="T_875bc_level0_row2" class="row_heading level0 row2" >inflacja_q</th>
-      <td id="T_875bc_row2_col0" class="data row2 col0" >0.558</td>
-      <td id="T_875bc_row2_col1" class="data row2 col1" >0.812</td>
-      <td id="T_875bc_row2_col2" class="data row2 col2" >1.000</td>
-      <td id="T_875bc_row2_col3" class="data row2 col3" >0.587</td>
-      <td id="T_875bc_row2_col4" class="data row2 col4" >-0.286</td>
-      <td id="T_875bc_row2_col5" class="data row2 col5" >0.737</td>
-      <td id="T_875bc_row2_col6" class="data row2 col6" >-0.591</td>
-      <td id="T_875bc_row2_col7" class="data row2 col7" >-0.499</td>
-      <td id="T_875bc_row2_col8" class="data row2 col8" >-0.504</td>
-      <td id="T_875bc_row2_col9" class="data row2 col9" >0.035</td>
-      <td id="T_875bc_row2_col10" class="data row2 col10" >0.134</td>
+      <th id="T_6b362_level0_row2" class="row_heading level0 row2" >inflacja_q</th>
+      <td id="T_6b362_row2_col0" class="data row2 col0" >0.57</td>
+      <td id="T_6b362_row2_col1" class="data row2 col1" >0.81</td>
+      <td id="T_6b362_row2_col2" class="data row2 col2" >1.00</td>
+      <td id="T_6b362_row2_col3" class="data row2 col3" >0.59</td>
+      <td id="T_6b362_row2_col4" class="data row2 col4" >-0.29</td>
+      <td id="T_6b362_row2_col5" class="data row2 col5" >0.74</td>
+      <td id="T_6b362_row2_col6" class="data row2 col6" >-0.59</td>
+      <td id="T_6b362_row2_col7" class="data row2 col7" >-0.50</td>
+      <td id="T_6b362_row2_col8" class="data row2 col8" >-0.50</td>
+      <td id="T_6b362_row2_col9" class="data row2 col9" >0.05</td>
+      <td id="T_6b362_row2_col10" class="data row2 col10" >0.14</td>
+      <td id="T_6b362_row2_col11" class="data row2 col11" >0.56</td>
+      <td id="T_6b362_row2_col12" class="data row2 col12" >0.46</td>
+      <td id="T_6b362_row2_col13" class="data row2 col13" >0.54</td>
+      <td id="T_6b362_row2_col14" class="data row2 col14" >-0.14</td>
     </tr>
     <tr>
-      <th id="T_875bc_level0_row3" class="row_heading level0 row3" >stopa_procentowa</th>
-      <td id="T_875bc_row3_col0" class="data row3 col0" >0.751</td>
-      <td id="T_875bc_row3_col1" class="data row3 col1" >0.756</td>
-      <td id="T_875bc_row3_col2" class="data row3 col2" >0.587</td>
-      <td id="T_875bc_row3_col3" class="data row3 col3" >1.000</td>
-      <td id="T_875bc_row3_col4" class="data row3 col4" >-0.502</td>
-      <td id="T_875bc_row3_col5" class="data row3 col5" >0.811</td>
-      <td id="T_875bc_row3_col6" class="data row3 col6" >-0.580</td>
-      <td id="T_875bc_row3_col7" class="data row3 col7" >-0.596</td>
-      <td id="T_875bc_row3_col8" class="data row3 col8" >-0.394</td>
-      <td id="T_875bc_row3_col9" class="data row3 col9" >-0.230</td>
-      <td id="T_875bc_row3_col10" class="data row3 col10" >-0.113</td>
+      <th id="T_6b362_level0_row3" class="row_heading level0 row3" >stopa_procentowa</th>
+      <td id="T_6b362_row3_col0" class="data row3 col0" >0.74</td>
+      <td id="T_6b362_row3_col1" class="data row3 col1" >0.77</td>
+      <td id="T_6b362_row3_col2" class="data row3 col2" >0.59</td>
+      <td id="T_6b362_row3_col3" class="data row3 col3" >1.00</td>
+      <td id="T_6b362_row3_col4" class="data row3 col4" >-0.51</td>
+      <td id="T_6b362_row3_col5" class="data row3 col5" >0.81</td>
+      <td id="T_6b362_row3_col6" class="data row3 col6" >-0.59</td>
+      <td id="T_6b362_row3_col7" class="data row3 col7" >-0.60</td>
+      <td id="T_6b362_row3_col8" class="data row3 col8" >-0.38</td>
+      <td id="T_6b362_row3_col9" class="data row3 col9" >-0.20</td>
+      <td id="T_6b362_row3_col10" class="data row3 col10" >-0.10</td>
+      <td id="T_6b362_row3_col11" class="data row3 col11" >0.76</td>
+      <td id="T_6b362_row3_col12" class="data row3 col12" >0.84</td>
+      <td id="T_6b362_row3_col13" class="data row3 col13" >0.32</td>
+      <td id="T_6b362_row3_col14" class="data row3 col14" >0.34</td>
     </tr>
     <tr>
-      <th id="T_875bc_level0_row4" class="row_heading level0 row4" >liczba_kredytow</th>
-      <td id="T_875bc_row4_col0" class="data row4 col0" >-0.023</td>
-      <td id="T_875bc_row4_col1" class="data row4 col1" >-0.477</td>
-      <td id="T_875bc_row4_col2" class="data row4 col2" >-0.286</td>
-      <td id="T_875bc_row4_col3" class="data row4 col3" >-0.502</td>
-      <td id="T_875bc_row4_col4" class="data row4 col4" >1.000</td>
-      <td id="T_875bc_row4_col5" class="data row4 col5" >-0.152</td>
-      <td id="T_875bc_row4_col6" class="data row4 col6" >0.521</td>
-      <td id="T_875bc_row4_col7" class="data row4 col7" >0.514</td>
-      <td id="T_875bc_row4_col8" class="data row4 col8" >-0.130</td>
-      <td id="T_875bc_row4_col9" class="data row4 col9" >0.373</td>
-      <td id="T_875bc_row4_col10" class="data row4 col10" >0.302</td>
+      <th id="T_6b362_level0_row4" class="row_heading level0 row4" >liczba_kredytow</th>
+      <td id="T_6b362_row4_col0" class="data row4 col0" >-0.02</td>
+      <td id="T_6b362_row4_col1" class="data row4 col1" >-0.48</td>
+      <td id="T_6b362_row4_col2" class="data row4 col2" >-0.29</td>
+      <td id="T_6b362_row4_col3" class="data row4 col3" >-0.51</td>
+      <td id="T_6b362_row4_col4" class="data row4 col4" >1.00</td>
+      <td id="T_6b362_row4_col5" class="data row4 col5" >-0.15</td>
+      <td id="T_6b362_row4_col6" class="data row4 col6" >0.52</td>
+      <td id="T_6b362_row4_col7" class="data row4 col7" >0.51</td>
+      <td id="T_6b362_row4_col8" class="data row4 col8" >-0.13</td>
+      <td id="T_6b362_row4_col9" class="data row4 col9" >0.38</td>
+      <td id="T_6b362_row4_col10" class="data row4 col10" >0.30</td>
+      <td id="T_6b362_row4_col11" class="data row4 col11" >-0.05</td>
+      <td id="T_6b362_row4_col12" class="data row4 col12" >-0.19</td>
+      <td id="T_6b362_row4_col13" class="data row4 col13" >0.04</td>
+      <td id="T_6b362_row4_col14" class="data row4 col14" >0.13</td>
     </tr>
     <tr>
-      <th id="T_875bc_level0_row5" class="row_heading level0 row5" >tempo_wzrostu</th>
-      <td id="T_875bc_row5_col0" class="data row5 col0" >0.840</td>
-      <td id="T_875bc_row5_col1" class="data row5 col1" >0.837</td>
-      <td id="T_875bc_row5_col2" class="data row5 col2" >0.737</td>
-      <td id="T_875bc_row5_col3" class="data row5 col3" >0.811</td>
-      <td id="T_875bc_row5_col4" class="data row5 col4" >-0.152</td>
-      <td id="T_875bc_row5_col5" class="data row5 col5" >1.000</td>
-      <td id="T_875bc_row5_col6" class="data row5 col6" >-0.482</td>
-      <td id="T_875bc_row5_col7" class="data row5 col7" >-0.445</td>
-      <td id="T_875bc_row5_col8" class="data row5 col8" >-0.693</td>
-      <td id="T_875bc_row5_col9" class="data row5 col9" >-0.003</td>
-      <td id="T_875bc_row5_col10" class="data row5 col10" >0.152</td>
+      <th id="T_6b362_level0_row5" class="row_heading level0 row5" >tempo_wzrostu</th>
+      <td id="T_6b362_row5_col0" class="data row5 col0" >0.85</td>
+      <td id="T_6b362_row5_col1" class="data row5 col1" >0.84</td>
+      <td id="T_6b362_row5_col2" class="data row5 col2" >0.74</td>
+      <td id="T_6b362_row5_col3" class="data row5 col3" >0.81</td>
+      <td id="T_6b362_row5_col4" class="data row5 col4" >-0.15</td>
+      <td id="T_6b362_row5_col5" class="data row5 col5" >1.00</td>
+      <td id="T_6b362_row5_col6" class="data row5 col6" >-0.48</td>
+      <td id="T_6b362_row5_col7" class="data row5 col7" >-0.44</td>
+      <td id="T_6b362_row5_col8" class="data row5 col8" >-0.69</td>
+      <td id="T_6b362_row5_col9" class="data row5 col9" >0.03</td>
+      <td id="T_6b362_row5_col10" class="data row5 col10" >0.16</td>
+      <td id="T_6b362_row5_col11" class="data row5 col11" >0.87</td>
+      <td id="T_6b362_row5_col12" class="data row5 col12" >0.82</td>
+      <td id="T_6b362_row5_col13" class="data row5 col13" >0.59</td>
+      <td id="T_6b362_row5_col14" class="data row5 col14" >0.26</td>
     </tr>
     <tr>
-      <th id="T_875bc_level0_row6" class="row_heading level0 row6" >ufnosc</th>
-      <td id="T_875bc_row6_col0" class="data row6 col0" >-0.517</td>
-      <td id="T_875bc_row6_col1" class="data row6 col1" >-0.708</td>
-      <td id="T_875bc_row6_col2" class="data row6 col2" >-0.591</td>
-      <td id="T_875bc_row6_col3" class="data row6 col3" >-0.580</td>
-      <td id="T_875bc_row6_col4" class="data row6 col4" >0.521</td>
-      <td id="T_875bc_row6_col5" class="data row6 col5" >-0.482</td>
-      <td id="T_875bc_row6_col6" class="data row6 col6" >1.000</td>
-      <td id="T_875bc_row6_col7" class="data row6 col7" >0.983</td>
-      <td id="T_875bc_row6_col8" class="data row6 col8" >0.040</td>
-      <td id="T_875bc_row6_col9" class="data row6 col9" >0.384</td>
-      <td id="T_875bc_row6_col10" class="data row6 col10" >0.296</td>
+      <th id="T_6b362_level0_row6" class="row_heading level0 row6" >ufnosc</th>
+      <td id="T_6b362_row6_col0" class="data row6 col0" >-0.54</td>
+      <td id="T_6b362_row6_col1" class="data row6 col1" >-0.71</td>
+      <td id="T_6b362_row6_col2" class="data row6 col2" >-0.59</td>
+      <td id="T_6b362_row6_col3" class="data row6 col3" >-0.59</td>
+      <td id="T_6b362_row6_col4" class="data row6 col4" >0.52</td>
+      <td id="T_6b362_row6_col5" class="data row6 col5" >-0.48</td>
+      <td id="T_6b362_row6_col6" class="data row6 col6" >1.00</td>
+      <td id="T_6b362_row6_col7" class="data row6 col7" >0.98</td>
+      <td id="T_6b362_row6_col8" class="data row6 col8" >0.04</td>
+      <td id="T_6b362_row6_col9" class="data row6 col9" >0.39</td>
+      <td id="T_6b362_row6_col10" class="data row6 col10" >0.29</td>
+      <td id="T_6b362_row6_col11" class="data row6 col11" >-0.50</td>
+      <td id="T_6b362_row6_col12" class="data row6 col12" >-0.56</td>
+      <td id="T_6b362_row6_col13" class="data row6 col13" >-0.35</td>
+      <td id="T_6b362_row6_col14" class="data row6 col14" >-0.11</td>
     </tr>
     <tr>
-      <th id="T_875bc_level0_row7" class="row_heading level0 row7" >duze_zakupy</th>
-      <td id="T_875bc_row7_col0" class="data row7 col0" >-0.535</td>
-      <td id="T_875bc_row7_col1" class="data row7 col1" >-0.648</td>
-      <td id="T_875bc_row7_col2" class="data row7 col2" >-0.499</td>
-      <td id="T_875bc_row7_col3" class="data row7 col3" >-0.596</td>
-      <td id="T_875bc_row7_col4" class="data row7 col4" >0.514</td>
-      <td id="T_875bc_row7_col5" class="data row7 col5" >-0.445</td>
-      <td id="T_875bc_row7_col6" class="data row7 col6" >0.983</td>
-      <td id="T_875bc_row7_col7" class="data row7 col7" >1.000</td>
-      <td id="T_875bc_row7_col8" class="data row7 col8" >0.014</td>
-      <td id="T_875bc_row7_col9" class="data row7 col9" >0.454</td>
-      <td id="T_875bc_row7_col10" class="data row7 col10" >0.384</td>
+      <th id="T_6b362_level0_row7" class="row_heading level0 row7" >duze_zakupy</th>
+      <td id="T_6b362_row7_col0" class="data row7 col0" >-0.56</td>
+      <td id="T_6b362_row7_col1" class="data row7 col1" >-0.65</td>
+      <td id="T_6b362_row7_col2" class="data row7 col2" >-0.50</td>
+      <td id="T_6b362_row7_col3" class="data row7 col3" >-0.60</td>
+      <td id="T_6b362_row7_col4" class="data row7 col4" >0.51</td>
+      <td id="T_6b362_row7_col5" class="data row7 col5" >-0.44</td>
+      <td id="T_6b362_row7_col6" class="data row7 col6" >0.98</td>
+      <td id="T_6b362_row7_col7" class="data row7 col7" >1.00</td>
+      <td id="T_6b362_row7_col8" class="data row7 col8" >0.01</td>
+      <td id="T_6b362_row7_col9" class="data row7 col9" >0.45</td>
+      <td id="T_6b362_row7_col10" class="data row7 col10" >0.38</td>
+      <td id="T_6b362_row7_col11" class="data row7 col11" >-0.52</td>
+      <td id="T_6b362_row7_col12" class="data row7 col12" >-0.60</td>
+      <td id="T_6b362_row7_col13" class="data row7 col13" >-0.29</td>
+      <td id="T_6b362_row7_col14" class="data row7 col14" >-0.18</td>
     </tr>
     <tr>
-      <th id="T_875bc_level0_row8" class="row_heading level0 row8" >bezrobocie</th>
-      <td id="T_875bc_row8_col0" class="data row8 col0" >-0.678</td>
-      <td id="T_875bc_row8_col1" class="data row8 col1" >-0.582</td>
-      <td id="T_875bc_row8_col2" class="data row8 col2" >-0.504</td>
-      <td id="T_875bc_row8_col3" class="data row8 col3" >-0.394</td>
-      <td id="T_875bc_row8_col4" class="data row8 col4" >-0.130</td>
-      <td id="T_875bc_row8_col5" class="data row8 col5" >-0.693</td>
-      <td id="T_875bc_row8_col6" class="data row8 col6" >0.040</td>
-      <td id="T_875bc_row8_col7" class="data row8 col7" >0.014</td>
-      <td id="T_875bc_row8_col8" class="data row8 col8" >1.000</td>
-      <td id="T_875bc_row8_col9" class="data row8 col9" >0.125</td>
-      <td id="T_875bc_row8_col10" class="data row8 col10" >0.063</td>
+      <th id="T_6b362_level0_row8" class="row_heading level0 row8" >bezrobocie</th>
+      <td id="T_6b362_row8_col0" class="data row8 col0" >-0.68</td>
+      <td id="T_6b362_row8_col1" class="data row8 col1" >-0.58</td>
+      <td id="T_6b362_row8_col2" class="data row8 col2" >-0.50</td>
+      <td id="T_6b362_row8_col3" class="data row8 col3" >-0.38</td>
+      <td id="T_6b362_row8_col4" class="data row8 col4" >-0.13</td>
+      <td id="T_6b362_row8_col5" class="data row8 col5" >-0.69</td>
+      <td id="T_6b362_row8_col6" class="data row8 col6" >0.04</td>
+      <td id="T_6b362_row8_col7" class="data row8 col7" >0.01</td>
+      <td id="T_6b362_row8_col8" class="data row8 col8" >1.00</td>
+      <td id="T_6b362_row8_col9" class="data row8 col9" >0.10</td>
+      <td id="T_6b362_row8_col10" class="data row8 col10" >0.06</td>
+      <td id="T_6b362_row8_col11" class="data row8 col11" >-0.73</td>
+      <td id="T_6b362_row8_col12" class="data row8 col12" >-0.56</td>
+      <td id="T_6b362_row8_col13" class="data row8 col13" >-0.71</td>
+      <td id="T_6b362_row8_col14" class="data row8 col14" >-0.20</td>
     </tr>
     <tr>
-      <th id="T_875bc_level0_row9" class="row_heading level0 row9" >spr_detaliczna</th>
-      <td id="T_875bc_row9_col0" class="data row9 col0" >-0.266</td>
-      <td id="T_875bc_row9_col1" class="data row9 col1" >-0.258</td>
-      <td id="T_875bc_row9_col2" class="data row9 col2" >0.035</td>
-      <td id="T_875bc_row9_col3" class="data row9 col3" >-0.230</td>
-      <td id="T_875bc_row9_col4" class="data row9 col4" >0.373</td>
-      <td id="T_875bc_row9_col5" class="data row9 col5" >-0.003</td>
-      <td id="T_875bc_row9_col6" class="data row9 col6" >0.384</td>
-      <td id="T_875bc_row9_col7" class="data row9 col7" >0.454</td>
-      <td id="T_875bc_row9_col8" class="data row9 col8" >0.125</td>
-      <td id="T_875bc_row9_col9" class="data row9 col9" >1.000</td>
-      <td id="T_875bc_row9_col10" class="data row9 col10" >0.893</td>
+      <th id="T_6b362_level0_row9" class="row_heading level0 row9" >spr_detaliczna</th>
+      <td id="T_6b362_row9_col0" class="data row9 col0" >-0.22</td>
+      <td id="T_6b362_row9_col1" class="data row9 col1" >-0.26</td>
+      <td id="T_6b362_row9_col2" class="data row9 col2" >0.05</td>
+      <td id="T_6b362_row9_col3" class="data row9 col3" >-0.20</td>
+      <td id="T_6b362_row9_col4" class="data row9 col4" >0.38</td>
+      <td id="T_6b362_row9_col5" class="data row9 col5" >0.03</td>
+      <td id="T_6b362_row9_col6" class="data row9 col6" >0.39</td>
+      <td id="T_6b362_row9_col7" class="data row9 col7" >0.45</td>
+      <td id="T_6b362_row9_col8" class="data row9 col8" >0.10</td>
+      <td id="T_6b362_row9_col9" class="data row9 col9" >1.00</td>
+      <td id="T_6b362_row9_col10" class="data row9 col10" >0.90</td>
+      <td id="T_6b362_row9_col11" class="data row9 col11" >-0.26</td>
+      <td id="T_6b362_row9_col12" class="data row9 col12" >-0.34</td>
+      <td id="T_6b362_row9_col13" class="data row9 col13" >-0.15</td>
+      <td id="T_6b362_row9_col14" class="data row9 col14" >-0.18</td>
     </tr>
     <tr>
-      <th id="T_875bc_level0_row10" class="row_heading level0 row10" >pkb</th>
-      <td id="T_875bc_row10_col0" class="data row10 col0" >-0.182</td>
-      <td id="T_875bc_row10_col1" class="data row10 col1" >-0.099</td>
-      <td id="T_875bc_row10_col2" class="data row10 col2" >0.134</td>
-      <td id="T_875bc_row10_col3" class="data row10 col3" >-0.113</td>
-      <td id="T_875bc_row10_col4" class="data row10 col4" >0.302</td>
-      <td id="T_875bc_row10_col5" class="data row10 col5" >0.152</td>
-      <td id="T_875bc_row10_col6" class="data row10 col6" >0.296</td>
-      <td id="T_875bc_row10_col7" class="data row10 col7" >0.384</td>
-      <td id="T_875bc_row10_col8" class="data row10 col8" >0.063</td>
-      <td id="T_875bc_row10_col9" class="data row10 col9" >0.893</td>
-      <td id="T_875bc_row10_col10" class="data row10 col10" >1.000</td>
+      <th id="T_6b362_level0_row10" class="row_heading level0 row10" >pkb</th>
+      <td id="T_6b362_row10_col0" class="data row10 col0" >-0.18</td>
+      <td id="T_6b362_row10_col1" class="data row10 col1" >-0.10</td>
+      <td id="T_6b362_row10_col2" class="data row10 col2" >0.14</td>
+      <td id="T_6b362_row10_col3" class="data row10 col3" >-0.10</td>
+      <td id="T_6b362_row10_col4" class="data row10 col4" >0.30</td>
+      <td id="T_6b362_row10_col5" class="data row10 col5" >0.16</td>
+      <td id="T_6b362_row10_col6" class="data row10 col6" >0.29</td>
+      <td id="T_6b362_row10_col7" class="data row10 col7" >0.38</td>
+      <td id="T_6b362_row10_col8" class="data row10 col8" >0.06</td>
+      <td id="T_6b362_row10_col9" class="data row10 col9" >0.90</td>
+      <td id="T_6b362_row10_col10" class="data row10 col10" >1.00</td>
+      <td id="T_6b362_row10_col11" class="data row10 col11" >-0.20</td>
+      <td id="T_6b362_row10_col12" class="data row10 col12" >-0.27</td>
+      <td id="T_6b362_row10_col13" class="data row10 col13" >-0.08</td>
+      <td id="T_6b362_row10_col14" class="data row10 col14" >-0.21</td>
+    </tr>
+    <tr>
+      <th id="T_6b362_level0_row11" class="row_heading level0 row11" >wynag</th>
+      <td id="T_6b362_row11_col0" class="data row11 col0" >0.99</td>
+      <td id="T_6b362_row11_col1" class="data row11 col1" >0.73</td>
+      <td id="T_6b362_row11_col2" class="data row11 col2" >0.56</td>
+      <td id="T_6b362_row11_col3" class="data row11 col3" >0.76</td>
+      <td id="T_6b362_row11_col4" class="data row11 col4" >-0.05</td>
+      <td id="T_6b362_row11_col5" class="data row11 col5" >0.87</td>
+      <td id="T_6b362_row11_col6" class="data row11 col6" >-0.50</td>
+      <td id="T_6b362_row11_col7" class="data row11 col7" >-0.52</td>
+      <td id="T_6b362_row11_col8" class="data row11 col8" >-0.73</td>
+      <td id="T_6b362_row11_col9" class="data row11 col9" >-0.26</td>
+      <td id="T_6b362_row11_col10" class="data row11 col10" >-0.20</td>
+      <td id="T_6b362_row11_col11" class="data row11 col11" >1.00</td>
+      <td id="T_6b362_row11_col12" class="data row11 col12" >0.96</td>
+      <td id="T_6b362_row11_col13" class="data row11 col13" >0.63</td>
+      <td id="T_6b362_row11_col14" class="data row11 col14" >0.42</td>
+    </tr>
+    <tr>
+      <th id="T_6b362_level0_row12" class="row_heading level0 row12" >inflacja_q_kum</th>
+      <td id="T_6b362_row12_col0" class="data row12 col0" >0.94</td>
+      <td id="T_6b362_row12_col1" class="data row12 col1" >0.70</td>
+      <td id="T_6b362_row12_col2" class="data row12 col2" >0.46</td>
+      <td id="T_6b362_row12_col3" class="data row12 col3" >0.84</td>
+      <td id="T_6b362_row12_col4" class="data row12 col4" >-0.19</td>
+      <td id="T_6b362_row12_col5" class="data row12 col5" >0.82</td>
+      <td id="T_6b362_row12_col6" class="data row12 col6" >-0.56</td>
+      <td id="T_6b362_row12_col7" class="data row12 col7" >-0.60</td>
+      <td id="T_6b362_row12_col8" class="data row12 col8" >-0.56</td>
+      <td id="T_6b362_row12_col9" class="data row12 col9" >-0.34</td>
+      <td id="T_6b362_row12_col10" class="data row12 col10" >-0.27</td>
+      <td id="T_6b362_row12_col11" class="data row12 col11" >0.96</td>
+      <td id="T_6b362_row12_col12" class="data row12 col12" >1.00</td>
+      <td id="T_6b362_row12_col13" class="data row12 col13" >0.48</td>
+      <td id="T_6b362_row12_col14" class="data row12 col14" >0.50</td>
+    </tr>
+    <tr>
+      <th id="T_6b362_level0_row13" class="row_heading level0 row13" >ogolem</th>
+      <td id="T_6b362_row13_col0" class="data row13 col0" >0.62</td>
+      <td id="T_6b362_row13_col1" class="data row13 col1" >0.65</td>
+      <td id="T_6b362_row13_col2" class="data row13 col2" >0.54</td>
+      <td id="T_6b362_row13_col3" class="data row13 col3" >0.32</td>
+      <td id="T_6b362_row13_col4" class="data row13 col4" >0.04</td>
+      <td id="T_6b362_row13_col5" class="data row13 col5" >0.59</td>
+      <td id="T_6b362_row13_col6" class="data row13 col6" >-0.35</td>
+      <td id="T_6b362_row13_col7" class="data row13 col7" >-0.29</td>
+      <td id="T_6b362_row13_col8" class="data row13 col8" >-0.71</td>
+      <td id="T_6b362_row13_col9" class="data row13 col9" >-0.15</td>
+      <td id="T_6b362_row13_col10" class="data row13 col10" >-0.08</td>
+      <td id="T_6b362_row13_col11" class="data row13 col11" >0.63</td>
+      <td id="T_6b362_row13_col12" class="data row13 col12" >0.48</td>
+      <td id="T_6b362_row13_col13" class="data row13 col13" >1.00</td>
+      <td id="T_6b362_row13_col14" class="data row13 col14" >0.14</td>
+    </tr>
+    <tr>
+      <th id="T_6b362_level0_row14" class="row_heading level0 row14" >rpk</th>
+      <td id="T_6b362_row14_col0" class="data row14 col0" >0.36</td>
+      <td id="T_6b362_row14_col1" class="data row14 col1" >0.19</td>
+      <td id="T_6b362_row14_col2" class="data row14 col2" >-0.14</td>
+      <td id="T_6b362_row14_col3" class="data row14 col3" >0.34</td>
+      <td id="T_6b362_row14_col4" class="data row14 col4" >0.13</td>
+      <td id="T_6b362_row14_col5" class="data row14 col5" >0.26</td>
+      <td id="T_6b362_row14_col6" class="data row14 col6" >-0.11</td>
+      <td id="T_6b362_row14_col7" class="data row14 col7" >-0.18</td>
+      <td id="T_6b362_row14_col8" class="data row14 col8" >-0.20</td>
+      <td id="T_6b362_row14_col9" class="data row14 col9" >-0.18</td>
+      <td id="T_6b362_row14_col10" class="data row14 col10" >-0.21</td>
+      <td id="T_6b362_row14_col11" class="data row14 col11" >0.42</td>
+      <td id="T_6b362_row14_col12" class="data row14 col12" >0.50</td>
+      <td id="T_6b362_row14_col13" class="data row14 col13" >0.14</td>
+      <td id="T_6b362_row14_col14" class="data row14 col14" >1.00</td>
     </tr>
   </tbody>
 </table>
