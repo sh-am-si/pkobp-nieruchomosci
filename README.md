@@ -103,6 +103,7 @@ W trakcie rozwiązania zadania, zapoznałem się z następnymi materialami.
 
 # Korelacja
 
+
 <style type="text/css">
 #T_6b362 th {
   width: 40px;
